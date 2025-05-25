@@ -3586,6 +3586,44 @@ local actions_to_insert = {
 		end
 	},
 	{
+		id                = "COPITH_FORWARD_THINKING",
+		name              = "$actionname_forward_thinking",
+		description       = "$actiondesc_forward_thinking",
+		author            = "Copi",
+		mod               = "Copi's Things",
+		sprite            = "mods/copis_things/files/ui_gfx/gun_actions/forward_thinking.png",
+		type              = ACTION_TYPE_PASSIVE,
+		spawn_level       = "0,1,2,3,4",
+		spawn_probability = "1,1,1,1,1",
+		price             = 100,
+		mana              = 0,
+		custom_xml_file   = "mods/copis_things/files/entities/misc/custom_cards/forward_thinking.xml",
+		action = function()
+			draw_actions(1, true)
+		end
+	},
+	{
+		id                = "COPITH_VOLATIC_IMPETUS",
+		name              = "$actionname_volatic_impetus",
+		description       = "$actiondesc_volatic_impetus",
+		author            = "Copi",
+		mod               = "Copi's Things",
+		sprite            = "mods/copis_things/files/ui_gfx/gun_actions/volatic_impetus.png",
+		type              = ACTION_TYPE_PASSIVE,
+		spawn_level       = "2,3,4",
+		spawn_probability = "0.66,0.66,0.66",
+		price             = 100,
+		mana              = 17,
+		custom_xml_file   = "mods/copis_things/files/entities/misc/custom_cards/zap.xml",
+		action = function()
+			if reflecting then
+				Reflection_RegisterProjectile("mods/copis_things/files/entities/projectiles/shock.xml")
+				return
+			end
+			draw_actions(1, true)
+		end
+	},
+	{
 		id                  = "COPITH_MANA_EFFICENCY",
 		name                = "$actionname_mana_efficency",
 		author              = "Copi",
@@ -3595,7 +3633,7 @@ local actions_to_insert = {
 		sprite_unidentified = "data/ui_gfx/gun_actions/electric_charge_unidentified.png",
 		type                = ACTION_TYPE_MODIFIER,
 		spawn_level         = "3,4,5,6",
-		spawn_probability   = "0.2,0.2,0.2,0.2",
+		spawn_probability   = "0.4,0.4,0.2,0.2",
 		inject_after        = {"MANA_REDUCE"},
 		price               = 150,
 		mana                = 0,
