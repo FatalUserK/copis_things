@@ -1,5 +1,4 @@
-dofile_once("data/scripts/lib/utilities.lua")
-local options =
+MaterialOptions =
 {
 	{ probability = 1.0000, "acid"},
 	{ probability = 1.0000, "blood"},
@@ -26,10 +25,27 @@ local options =
     -- APPEND MATERIALS HERE
 }
 
+do_mod_appends("mods/copis_things/files/scripts/projectiles/material_random.lua") --run appends early before code is executed but after table is created
+
+local function RandomFromTable(t)
+	local total_weight = 0
+	for _, entry in ipairs(t) do
+		total_weight = total_weight + entry.probability
+	end
+
+	local rnd = Randomf(0, total_weight)
+	for _, entry in ipairs(t) do
+		if rnd <= entry.probability then
+			return entry
+		else rnd = rnd - entry.probability end
+	end
+	return t[#t]
+end
+
 local entity = GetUpdatedEntityID();
 
-local rnd = random_create(9123,58925+GameGetFrameNum() )
-local mat = tostring(pick_random_from_table_weighted( rnd, options )[1])
+SetRandomSeed(9123,58925+GameGetFrameNum() )
+local mat = tostring(RandomFromTable(MaterialOptions)[1])
 local children = EntityGetAllChildren( entity ) or {};
 
 for _,particle_emitter in pairs( EntityGetComponent( entity, "ParticleEmitterComponent" ) or {} ) do
@@ -51,3 +67,5 @@ for _,child in pairs(children) do
         ComponentSetValue2(particle_emitter, "emitted_material_name", mat)
     end
 end
+
+return --return here to avoid running appends a second time
